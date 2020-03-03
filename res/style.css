@@ -1,0 +1,88 @@
+.navbar {
+		 margin-bottom: 0;
+		 background-color: black !important;
+		 z-index: 9999;
+		 border: 0;
+		 font-size: 12px !important;
+		 line-height: 1.42857143 !important;
+		 letter-spacing: 4px;
+		 border-radius: 0;
+		 font-family: Montserrat, sans-serif;
+	 }
+	 .navbar li a, .navbar .navbar-brand {
+		 color: #fff !important;
+	 }
+	 .navbar-default .navbar-toggle {
+		 border-color: transparent;
+		 color: #fff !important;
+	 }
+	 .fromtop{
+		top: 80px!important;
+		position: relative;
+	 }
+	 .table>tbody>tr{		
+		border-bottom:none !important;
+		border-top:none !important;
+			   
+	 }
+	 .table {
+		outline:1px solid black;
+		box-shadow: 15px 15px #888888;
+		width:auto !important;            
+	}
+	 a:focus, a:hover {
+		 text-decoration: none;
+	}
+	input[type=url] {
+		-webkit-appearance: none;
+		width: 650px;
+		height: 30px;
+		padding: 3px 8px;
+		font-size: 14px;
+		line-height: 1.42857143;
+		color: #555;
+		border: 1px solid #ccc;
+		border-radius: 2px;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+
+  .divborder {
+		 outline:1px solid black;
+		 box-shadow: 15px 15px #888888;
+   }
+
+  .myMarginTop{
+		 margin-top:40px; 
+   }
+
+   .myMarginBottom{
+		 margin-bottom:30px; 
+   }
+
+   .myMarginTopUl{
+	   margin-top:5px;
+   }
+
+   .resultLinks a{  
+		 text-decoration: none;
+   }
+
+	.resultLinks a:hover{
+		  text-decoration: underline;
+   }
+   .paddingtable{
+		padding: 5px;
+   } 
+
+   button{
+	   background-color: black !important;
+	   border: 1px solid white !important;
+
+   }
+
+   .btn-default {
+	   	color: white !important;
+		background-color: black !important;
+		border: 1px solid white !important;
+	}

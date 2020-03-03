@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <title>Short Url</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/media/res/style.css"></link>
+        <script>
+            function resetData() {
+                document.getElementById('id_url').value='';
+            }
+        </script>
+    </head>
+    <body>
+      
+        
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                    </button>
+                    {% if request.user.is_authenticated %}
+                        <a class="navbar-brand" href="/home/">ShortUrl</a>
+                    {% else %}
+                         <a class="navbar-brand" href="/account/login/">ShortUrl</a>
+                    {% endif %} 
+
+              </div>
+              
+               <div class="collapse navbar-collapse" id="myNavbar">           
+                    <ul class="nav navbar-nav navbar-right">                 
+                    {% if request.user.is_authenticated %} 
+                        <li><a href="/home/">HOME</a></li>
+                        <li><a href="/about/">ABOUT</a></li>
+                        <li><a href="/generateUrl/"><i class="glyphicon glyphicon-link"></i>MAKE-TINY-URL</a></li>
+                        <li><a href="/account/logout/"><i class="glyphicon glyphicon-log-out"></i>Logout</a></li>
+                        {% else %}
+                        <li><a href="/about/">ABOUT</a></li>
+                        <li><a href="/generateUrl/"><i class="glyphicon glyphicon-link"></i>MAKE-TINY-URL</a></li>
+                        <li><a href="/account/login/"><i class="glyphicon glyphicon-log-in"></i>Login</a></li>
+                    {% endif %}
+                    </ul>
+                </div>
+
+              </div>
+              
+            </div>
+            
+        </nav>
+        
+        
+    <div class="container-fluid fromtop">
+            <div class="row">
+                <div class="col-sm-3">  
+                  {% if request.user.is_authenticated %}        
+                    <table class="table" align="center">                        
+						<tr>
+							<td>
+                                <h4>&nbsp;&nbsp;WELCOME,&nbsp;&nbsp;{{request.user.username|upper}}&nbsp;&nbsp;</h4>
+                                <h5>&nbsp;&nbsp;<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{{request.user.last_login}}&nbsp;&nbsp;</h5>
+                            </td>
+						</tr>  
+                        <tr>
+                            <td>
+                                <a href="/generateUrl/">&nbsp;&nbsp;<i class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;&nbsp;MAKE-TINY-URL</a>        
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>
+                                 <a href="/allUrls/">&nbsp;&nbsp;<i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;&nbsp;MY-URL-LIST</a>        
+                            </td>
+                            
+                        </tr>
+                    </table>
+                  {% endif %}
+                </div>
+                
+                
+                <div class="col-sm-8 divborder">
+                    <h3>MAKE YOUR LONG URL SHORTER.</h3><br>
+                     <form class="myMarginBottom" action="." method="post">
+						  {% csrf_token %}
+						 <input type="text" hidden="true" name="id" value="{{request.user.id}}"/>
+							{{form.as_p}}<br>					
+                         <button onclick="resetData()"class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i>&nbsp;&nbsp;Reset Field&nbsp;</button>                     
+                         &nbsp;&nbsp;<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;MakeTiny Url&nbsp;</button> 
+                    </form>
+                </div>  
+
+                  
+        </div>
+
+        {% if tinyurl %}
+        <div class="row myMarginTop resultLinks">
+                <div class="col-sm-3">          
+                    &nbsp;
+                </div>               
+                <div class="col-sm-8 divborder">
+                    <h3>ShortUrl was created for your long url !</h3><br>
+                    <ul class="myMarginBottom">
+                        <li><a target="_blank" href="{{murl}}">{{murl}}</a></li>
+                        <li class="myMarginTopUl"><a target="_blank" href="{{tinyurl}}"><i class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;{{tinyurl}}</a></li>
+                    </ul>
+                     {% if request.user.is_authenticated %}  
+                        <div class="alert alert-warning">
+                                <strong>Information!</strong>&nbsp;You can choose a category from below option for your generated url.</span> 
+                        </div>
+
+                        <form class="myMarginBottom" method="post" action="/addcategory/">
+                                <div> {% csrf_token %}
+                                    <input type="hidden" name="url" value="{{murl}}"/>
+                                    <input type="hidden" name="tinyurl" value="{{tinyurl}}"/>                                   
+                                    {% for option in optionlist %}
+                                        {% if option == cateogry %}
+                                            <label class="radio-inline"><input type="radio" value="{{option}}" name="cateogry" checked=true>{{option| title}}</label>
+                                        {% else %}
+                                            <label class="radio-inline"><input type="radio" value="{{option}}" name="cateogry">{{option| title}}</label>
+                                        {% endif %}
+                                    {% endfor %}                                                                    
+                                </div>
+                               <br><button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;Link url to cateogry&nbsp;</button>
+                        </form>
+
+                     {% endif %}
+                </div>
+        </div>
+        {% endif %}
+    </div>
+
+    </body>
+</html>
+
+

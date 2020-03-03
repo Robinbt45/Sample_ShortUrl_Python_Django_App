@@ -1,0 +1,127 @@
+
+<html>
+    <head>
+        <title>Short Url</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/media/res/style.css"></link>
+    </head>       
+    <body>
+      
+        
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                    </button>
+                     {% if request.user.is_authenticated %}
+                        <a class="navbar-brand" href="/home/">ShortUrl</a>
+                    {% else %}
+                         <a class="navbar-brand" href="/account/login/">ShortUrl</a>
+                    {% endif %}
+
+              </div>
+              
+               <div class="collapse navbar-collapse" id="myNavbar">           
+                    <ul class="nav navbar-nav navbar-right">                 
+                    {% if request.user.is_authenticated %} 
+                        <li><a href="/home/">HOME</a></li>
+                        <li><a href="/about/">ABOUT</a></li>
+                        <li><a href="/generateUrl/"><i class="glyphicon glyphicon-link"></i>MAKE-TINY-URL</a></li>
+                        <li><a href="/account/logout/"><i class="glyphicon glyphicon-log-out"></i>Logout</a></li>
+                        {% else %}
+                        <li><a href="/about/">ABOUT</a></li>
+                        <li><a href="/generateUrl/"><i class="glyphicon glyphicon-link"></i>MAKE-TINY-URL</a></li>
+                        <li><a href="/account/login/"><i class="glyphicon glyphicon-log-in"></i>Login</a></li>
+                    {% endif %}
+                    </ul>
+                </div>
+
+              </div>
+              
+            </div>
+            
+        </nav>
+        
+        
+    <div class="container-fluid fromtop">
+            <div class="row">
+                <div class="col-sm-3">  
+                  {% if request.user.is_authenticated %}        
+                        <table class="table" align="center">                        
+                            <tr>
+                                <td>
+                                    <h4>&nbsp;&nbsp;WELCOME,&nbsp;&nbsp;{{request.user.username|upper}}&nbsp;&nbsp;</h4>
+                                    <h5>&nbsp;&nbsp;<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{{request.user.last_login}}&nbsp;&nbsp;</h5>
+                                </td>
+                            </tr>  
+                            <tr>
+                                <td>
+                                    <a href="/generateUrl/">&nbsp;&nbsp;<i class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;&nbsp;MAKE-TINY-URL</a>        
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="/allUrls/">&nbsp;&nbsp;<i class="glyphicon glyphicon-list-alt"></i>&nbsp;&nbsp;&nbsp;MY-URL-LIST</a>        
+                                </td>
+                                
+                            </tr>
+                        </table>
+                  {% endif %}
+                </div>
+                
+                
+                <div class="col-sm-8 divborder resultLinks">
+                   {% if urls %}                                                         
+                        <h3>Shorturl created for your long url so far !</h3>
+                        <ul class="myMarginBottom" style="list-style-type:square">            
+                            {% for u in urls %}
+                                <div>&nbsp;</div>
+                                <li><a target="_blank" href="{{u.url}}">{{u.url}}</a></li>
+                                <ul>
+                                    <li class="myMarginTopUl"><a target="_blank" href="{{u.tinyurl}}"><i class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;{{u.tinyurl}}</a>&nbsp;&nbsp;<i class="glyphicon glyphicon-triangle-right"></i>&nbsp;{{u.cateogry}}</li>
+                                </ul>
+                            {% endfor %}
+                       </ul> 
+
+                       <center> 
+                           <div class="myMarginBottom">
+                                <span class="step-links">
+                                    {% if urls.has_previous %}
+                                        <a href="?page={{ urls.previous_page_number }}">previous</a>
+                                    {% endif %}
+                                        &nbsp;
+                                    <span class="current">
+                                        Page {{ urls.number }} of {{ urls.paginator.num_pages }}
+                                    </span>
+                                        &nbsp;
+                                    {% if urls.has_next %}
+                                        <a href="?page={{ urls.next_page_number }}">next</a>
+                                    {% endif %}
+                                </span>
+                          </div>
+                    <center>
+
+                    {% else %}
+                      <h3>Shorturl created for your long url so far !</h3>     
+                       <div class="alert alert-warning">
+                            <strong>Information!</strong>&nbsp;No urls has been added.&nbsp;<span class="resultLinks"><a  href="/generateUrl">click here to add new one.</a></span> 
+                        </div>  
+                    {% endif %}
+                </div>  
+
+                  
+        </div>
+    </div>
+
+    </body>
+</html>
+
+
